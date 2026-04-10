@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Taaleem The GYM | BGMI Esports Tournament</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0f;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e1e2a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f0b90b;
+            border-radius: 10px;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 8px #f0b90b, 0 0 15px #ff7700;
+        }
+
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, #0b0b12 0%, #1a1a2e 100%);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format') center/cover no-repeat;
+            opacity: 0.12;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-weight: 800;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #f0b90b, #ff6600);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .btn-primary {
+            background: linear-gradient(95deg, #f0b90b, #ff7e05);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-family: 'Orbitron', monospace;
+            color: #0a0a0f;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(240,185,11,0.3);
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 22px rgba(240,185,11,0.6);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #f0b90b;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #f0b90b;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .card-bg {
+            background: rgba(20, 20, 30, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 2rem;
+            border: 1px solid rgba(240,185,11,0.3);
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+        }
+        .prize-pool {
+            background: linear-gradient(145deg, #23232e, #13131c);
+            border-radius: 40px;
+            padding: 1rem 2rem;
+            display: inline-block;
+            border-left: 6px solid #f0b90b;
+        }
+        .form-group {
+            margin-bottom: 1.4rem;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: #0f0f17;
+            border: 1px solid #2c2c3a;
+            border-radius: 20px;
+            color: white;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #f0b90b;
+            box-shadow: 0 0 0 2px rgba(240,185,11,0.3);
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            color: #ddd;
+        }
+        .rule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        .rule-item {
+            background: rgba(0,0,0,0.4);
+            border-left: 3px solid #f0b90b;
+            padding: 0.8rem 1rem;
+            border-radius: 18px;
+        }
+        .game-img-gallery {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        .game-img-gallery img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 28px;
+            border: 2px solid #f0b90b;
+            transition: transform 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        .game-img-gallery img:hover {
+            transform: scale(1.05);
+        }
+        .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            padding: 20px;
+            border-radius: 20px;
+            z-index: 1000;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #222;
+            margin-top: 3rem;
+            color: #aaa;
+        }
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1f1f2e;
+            padding: 14px 24px;
+            border-radius: 50px;
+            border-left: 5px solid #f0b90b;
+            z-index: 999;
+            display: none;
+            font-weight: 500;
+            box-shadow: 0 5px 20px black;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">TAALEEM THE GYM <span>| BGMI ESPORTS</span></div>
+            <div>
+                <i class="fas fa-trophy" style="color:#f0b90b;"></i> Prize ₹5000 &nbsp;|&nbsp; 
+                <i class="fas fa-gamepad"></i> Entry ₹200/Squad
+            </div>
+        </div>
+
+        <div style="text-align: center; padding: 2rem 0 3rem 0;">
+            <h1 class="glow-text" style="font-size: 3rem; font-family: 'Orbitron';">BATTLEGROUNDS MOBILE INDIA</h1>
+            <p style="font-size: 1.2rem; margin-top: 1rem;">Organized by <strong>Taaleem The Gym</strong> — Squad Tournament | Prize Pool ₹5000</p>
+            <div class="prize-pool" style="margin: 2rem auto;">
+                <h2><i class="fas fa-rupee-sign"></i> ₹5000 PRIZE POOL</h2>
+                <p>Entry Fee: ₹200 per squad | Limited Slots (First come first serve)</p>
+            </div>
+            <a href="#register" class="btn-primary" style="display: inline-block; text-decoration: none;"><i class="fas fa-bolt"></i> REGISTER NOW</a>
+            <a href="#rules" class="btn-outline" style="display: inline-block; text-decoration: none; margin-left: 15px;"><i class="fas fa-scroll"></i> Tournament Rules</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="game-img-gallery">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipPuBnWB-YLgBfxoiGZOGa8YBQ5Fm394X0huR-Yc=w243-h174-n-k-no-nu">
+        <img src="data:image/jpeg;base64,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" alt="bgmi gameplay">
+        <img src="data:image/jpeg;base64,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" alt="gaming tournament">
+        <img src="https://images.unsplash.com/photo-1614680376408-81e91ffe3db7?w=400&auto=format" alt="bgmi mobile">
+    </div>
+</div>
+
+<div class="container" id="register">
+    <div class="card-bg" style="margin: 2rem 0;">
+        <h2 style="font-family: 'Orbitron'; text-align: center;"><i class="fas fa-user-plus"></i> TEAM REGISTRATION</h2>
+        <p style="text-align: center; margin-bottom: 1.5rem;">Complete all steps (Form + Instagram + Payment) to secure slot ✅</p>
+        
+        <form id="registrationForm">
+            <div class="form-group">
+                <label><i class="fas fa-users"></i> Team Name *</label>
+                <input type="text" id="teamName" placeholder="e.g., VENOM ESPORTS" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-id-card"></i> Team Leader Name *</label>
+                <input type="text" id="leaderName" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email Address *</label>
+                <input type="email" id="email" placeholder="team@example.com" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fab fa-whatsapp"></i> WhatsApp Number (with country code) *</label>
+                <input type="tel" id="phone" placeholder="+91 XXXXXXXXXX" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fab fa-instagram"></i> Instagram Handle (Team/Leader) *</label>
+                <input type="text" id="instagram" placeholder="@your_team_handle" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-gamepad"></i> BGMI Squad Members (4 IDs - comma separated) *</label>
+                <textarea id="playerIds" rows="2" placeholder="ID1: PlayerName, ID2: PlayerName, ID3: PlayerName, ID4: PlayerName" required></textarea>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-check-circle"></i> Minimum BGMI Level required: 40+ (Team Leader Level) *</label>
+                <input type="number" id="leaderLevel" placeholder="Enter leader's BGMI level" min="1" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-exclamation-triangle"></i> Confirm rules & eligibility *</label>
+                <select id="agreeRules" required>
+                    <option value="">-- Accept Terms & Conditions --</option>
+                    <option value="yes">Yes, I agree to all rules (Mobile only, no emulator, fair play)</option>
+                </select>
+            </div>
+            
+            <button type="button" id="payRegisterBtn" class="btn-primary" style="width: 100%; font-size: 1.2rem;"><i class="fas fa-rupee-sign"></i> PAY ₹200 & REGISTER TEAM</button>
+        </form>
+        <p style="margin-top: 20px; font-size: 0.8rem; text-align: center;">After successful payment, you'll receive WhatsApp confirmation within 24 hours</p>
+    </div>
+</div>
+
+<div class="container" id="rules">
+    <h2 style="font-family: 'Orbitron'; margin: 2rem 0 1rem;"><i class="fas fa-list-ul"></i> TOURNAMENT RULES & TERMS</h2>
+    <div class="rule-grid">
+        <div class="rule-item"><i class="fas fa-mobile-alt"></i> <strong>ELIGIBILITY:</strong> Mobile only, No Emulator/PC. Min BGMI Level 40+ (Leader).</div>
+        <div class="rule-item"><i class="fas fa-users-slash"></i> <strong>REGISTRATION:</strong> All steps mandatory (Form+Instagram+Payment). Entry fee non-refundable.</div>
+        <div class="rule-item"><i class="fas fa-clock"></i> <strong>TIMING:</strong> Be ready 15 min before match time. Late entries not allowed.</div>
+        <div class="rule-item"><i class="fas fa-key"></i> <strong>ROOM ID:</strong> Shared only to registered teams via WhatsApp group.</div>
+        <div class="rule-item"><i class="fas fa-ban"></i> <strong>FAIR PLAY:</strong> Hacks/Cheats/Exploits banned. Admin decision final.</div>
+        <div class="rule-item"><i class="fas fa-image"></i> <strong>RESULTS:</strong> Each team must submit match screenshot.</div>
+        <div class="rule-item"><i class="fas fa-trophy"></i> <strong>PRIZE:</strong> ₹5000 distributed via UPI/Cash after tournament completion.</div>
+        <div class="rule-item"><i class="fas fa-wifi"></i> <strong>TECH ISSUES:</strong> Internet/ping player's responsibility.</div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2025 Taaleem The Gym - BGMI Tournament | Contact: +91 9876543210 | support@taaleemgym.com</p>
+</footer>
+
+<div id="toastMsg" class="toast-msg"></div>
+<div class="loading" id="loading">
+    <i class="fas fa-spinner fa-spin fa-3x"></i>
+    <p>Processing...</p>
+</div>
+
+<script>
+const API_BASE = window.location.origin; // For Vercel deployment
+
+function showToast(message, isError = false) {
+    const toast = document.getElementById('toastMsg');
+    toast.style.display = 'block';
+    toast.innerText = message;
+    toast.style.background = isError ? '#8b1e1e' : '#1f5e2d';
+    toast.style.borderLeftColor = isError ? '#ff4444' : '#f0b90b';
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 5000);
+}
+
+function showLoading() {
+    document.getElementById('loading').style.display = 'block';
+}
+
+function hideLoading() {
+    document.getElementById('loading').style.display = 'none';
+}
+
+function getFormData() {
+    const teamName = document.getElementById('teamName').value.trim();
+    const leaderName = document.getElementById('leaderName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const instagram = document.getElementById('instagram').value.trim();
+    const playerIds = document.getElementById('playerIds').value.trim();
+    const leaderLevel = parseInt(document.getElementById('leaderLevel').value);
+    const agreeRules = document.getElementById('agreeRules').value;
+    
+    if(!teamName || !leaderName || !email || !phone || !instagram || !playerIds || !leaderLevel || agreeRules !== "yes") {
+        showToast("❌ Please fill all fields and accept terms & conditions.", true);
+        return null;
+    }
+    if(leaderLevel < 40) {
+        showToast("❌ Minimum BGMI Level required is 40 for team leader.", true);
+        return null;
+    }
+    if(!phone.match(/^\+?[0-9]{10,15}$/)) {
+        showToast("❌ Enter valid WhatsApp number with country code.", true);
+        return null;
+    }
+    return { teamName, leaderName, email, phone, instagram, playerIds, leaderLevel };
+}
+
+async function initiatePayment(teamData) {
+    try {
+        showLoading();
+        
+        // Create order on backend
+        const orderResponse = await fetch(`${API_BASE}/api/create-order`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        const orderData = await orderResponse.json();
+        
+        if (!orderData.success) {
+            throw new Error('Failed to create order');
+        }
+        
+        const options = {
+            key: orderData.key,
+            amount: orderData.amount,
+            currency: orderData.currency,
+            name: "Taaleem The Gym",
+            description: "BGMI Tournament Squad Registration",
+            order_id: orderData.orderId,
+            handler: async function(response) {
+                // Verify payment
+                const verifyResponse = await fetch(`${API_BASE}/api/verify-payment`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature,
+                        teamData: teamData
+                    })
+                });
+                
+                const verifyData = await verifyResponse.json();
+                
+                if (verifyData.success) {
+                    showToast("✅ Registration successful! Check WhatsApp for details.");
+                    document.getElementById('registrationForm').reset();
+                } else {
+                    showToast("❌ Payment verification failed. Contact support.", true);
+                }
+                hideLoading();
+            },
+            prefill: {
+                name: teamData.leaderName,
+                email: teamData.email,
+                contact: teamData.phone
+            },
+            theme: {
+                color: "#f0b90b"
+            }
+        };
+        
+        const razorpay = new Razorpay(options);
+        razorpay.open();
+        razorpay.on('payment.failed', function(response) {
+            showToast("❌ Payment failed. Please try again.", true);
+            hideLoading();
+        });
+        
+    } catch (error) {
+        console.error('Payment error:', error);
+        showToast("❌ Error initiating payment. Please try again.", true);
+        hideLoading();
+    }
+}
+
+document.getElementById('payRegisterBtn').addEventListener('click', async () => {
+    const teamData = getFormData();
+    if(!teamData) return;
+    
+    if(!confirm(`Confirm your Instagram handle: ${teamData.instagram} is correct? We will verify.`)) {
+        showToast("Please update Instagram handle as per rules.", true);
+        return;
+    }
+    
+    await initiatePayment(teamData);
+});
+</script>
+</body>
+</html>
