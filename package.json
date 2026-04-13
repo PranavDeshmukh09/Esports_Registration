@@ -1,0 +1,23 @@
+{
+  "name": "bgmi-tournament-backend",
+  "version": "1.0.0",
+  "description": "BGMI Tournament Registration Backend",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "mongoose": "^7.8.9",
+    "razorpay": "^2.9.6"
+  },
+  "devDependencies": {
+    "@vercel/node": "^5.7.4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}

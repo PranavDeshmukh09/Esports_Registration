@@ -1,0 +1,7 @@
+.env
+.env.local
+.env.*.local
+test-db.js
+insert-test-data.js
+.git
+.gitignore
